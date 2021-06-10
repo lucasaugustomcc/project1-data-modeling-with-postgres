@@ -1,2 +1,2 @@
-# project1-data-modeling-with-postgress
-Projetct for the Udacity Data Engineering Nanodregree
+# Data Modeling with Postgres
+Project 1 for the Udacity Data Engineering Nanodregree
