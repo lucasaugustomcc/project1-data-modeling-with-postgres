@@ -20,16 +20,6 @@ def process_song_file(cur, filepath):
     # open song file
     df = pd.read_json(filepath, typ='series')
 
-    # insert song record
-    song_data = [
-        df['song_id'],
-        df['title'],
-        df['artist_id'],
-        df['year'],
-        df['duration']
-        ]
-    cur.execute(song_table_insert, song_data)
-
     # insert artist record
     artist_data = [
         df['artist_id'],
@@ -39,6 +29,16 @@ def process_song_file(cur, filepath):
         df['artist_longitude']
         ]
     cur.execute(artist_table_insert, artist_data)
+
+    # insert song record
+    song_data = [
+        df['song_id'],
+        df['title'],
+        df['artist_id'],
+        df['year'],
+        df['duration']
+        ]
+    cur.execute(song_table_insert, song_data)
 
 
 def process_log_file(cur, filepath):
