@@ -4,8 +4,16 @@ import psycopg2
 import pandas as pd
 from sql_queries import *
 
-
 def process_song_file(cur, filepath):
+    """
+    This procedure processes a song file whose filepath has been provided a parameter.
+    It extracts the song information in order to store it into the songs table.
+    Then it extracts the artist information in order to store it into the artists table.
+
+    INPUTS: 
+    * cur the cursor variable
+    * filepath the file path to the song file
+    """
     # open song file
     df = pd.read_json(filepath, typ='series')
 
@@ -19,6 +27,16 @@ def process_song_file(cur, filepath):
 
 
 def process_log_file(cur, filepath):
+    """
+    This procedure processes a log file whose filepath has been provided as a parameter.
+    It extracts the user information in order to store it into the users table.
+    Then it extracts and transform the time information in order to store it into the time table.
+    Finally it extracts the songplay information in order to store it into the songplays table.
+
+    INPUTS: 
+    * cur the cursor variable
+    * filepath the file path to the log file
+    """
     # open log file
     df = pd.read_json(filepath, lines=True)
 
@@ -60,8 +78,18 @@ def process_log_file(cur, filepath):
         songplay_data = (row['ts'], row['userId'],row['level'],songid,artistid,row['sessionId'],row['location'],row['userAgent'])
         cur.execute(songplay_table_insert, songplay_data)
 
-
 def process_data(cur, conn, filepath, func):
+    """
+    This procedure processes a directory whose filepath has been provided as a parameter to get all files matching the json extension.
+    Then it iterates over the file list passing every file as a parameter to the function provided as a parameter.
+    Finally it prints its progress.
+
+    INPUTS: 
+    * cur the cursor variable
+    * conn the connection variable
+    * filepath the file path to the log file
+    * func the callable function
+    """
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):
@@ -81,6 +109,11 @@ def process_data(cur, conn, filepath, func):
 
 
 def main():
+    """
+    This procedure creates a connection to the database.
+    Then it calls the functions to process the song and log files.
+    Finally it closes the database connection.
+    """
     conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
     cur = conn.cursor()
 
