@@ -103,7 +103,7 @@ artist_table_insert = ("""
 
 
 time_table_insert = ("""
-    INSERT into time (day, hour, month, start_time,  week,  weekday, year)
+    INSERT into time (start_time, hour, day, month, week, weekday, year)
         VALUES (%s, %s, %s, %s, %s, %s, %s)
         ON CONFLICT(start_time) DO NOTHING;
 """)
